@@ -18,5 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::group(['middleware' => ['api', 'cors']],function(){
     Route::get('/v1/getHeaderMenu',"Home@getListMenu");
+    Route::get('/v1/category/{route}',"Home@getCategory");
 });
-

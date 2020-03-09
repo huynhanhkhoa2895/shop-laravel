@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBrandTable extends Migration
+class CreateUrlRewriteTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateBrandTable extends Migration
      */
     public function up()
     {
-        Schema::create('brand', function (Blueprint $table) {
+        Schema::create('url_rewrite', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('logo');
-            $table->tinyInteger('include_menu')->default(1);
-            $table->string('route');
+            $table->string('table');
+            $table->string('origin');
+            $table->string('url');
+            $table->tinyInteger('status')->default(1);
+            $table->enum('type', ['category', 'product','other']);
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateBrandTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brand');
+        Schema::dropIfExists('url_rewrite');
     }
 }

@@ -21,4 +21,9 @@ class Home extends Controller
     public function getListMenu(){
         return response()->json($this->_model->getListHeader());
     }
+    public function getCategory(Request $rq){
+        $route = $this->_model->getIdByRoute($rq->route);
+        // $category 
+        return response()->json(["id"=>$rq->route]);
+    }
 }

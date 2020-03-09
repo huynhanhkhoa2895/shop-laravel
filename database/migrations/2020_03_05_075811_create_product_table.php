@@ -19,7 +19,7 @@ class CreateProductTable extends Migration
             $table->unsignedBigInteger('brand_id');
             $table->string('name');
             $table->string('sku');
-            $table->decimal('price');
+            $table->decimal('price',12,0);
             $table->string('route');
             $table->timestamps();
             $table->foreign('category_id')->references('id')->on('category');
