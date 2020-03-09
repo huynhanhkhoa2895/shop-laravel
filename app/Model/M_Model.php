@@ -14,7 +14,10 @@ class M_Model extends Model
         return $group;
     }
     function getListById($table="category",$id){
-        return DB::table($table)->where("id",$id)->select(DB::raw("id, name, route"));
+        if($table == "category" || $table == "brand")
+            return DB::table("product")->where($table."_id",$id)->get();
+        else 
+            return DB::table("product")->join('group_detail', 'group_detail.product_id', '=', 'product.id')->where("group_detail.group_id",$id)->get();
     }
     function getIdByRoute($url){
         return DB::table('url_rewrite')->where("url",$url)->first();

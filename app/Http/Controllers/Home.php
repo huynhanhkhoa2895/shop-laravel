@@ -23,7 +23,11 @@ class Home extends Controller
     }
     public function getCategory(Request $rq){
         $route = $this->_model->getIdByRoute($rq->route);
-        // $category 
-        return response()->json(["id"=>$rq->route]);
+        if($route->table == "category" || $route->table == "brand"){
+            $product = $this->_model->getListById($route->table,$route->origin);
+        }else{
+            $product = $this->_model->getListById($route->table,$route->origin);
+        }
+        return response()->json($product);
     }
 }
