@@ -19,8 +19,8 @@ class CreateBrandTable extends Migration
             $table->string('logo');
             $table->tinyInteger('include_menu')->default(1);
             $table->string('route');
-            $table->timestamps();
-        });
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));        });
     }
 
     /**

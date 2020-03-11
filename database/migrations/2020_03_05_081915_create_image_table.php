@@ -17,8 +17,10 @@ class CreateImageTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('product_id');
             $table->string('name');
+            $table->unsignedInteger('priority')->default(0);
             $table->tinyInteger('status')->default(1);
-            $table->timestamps();           
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->foreign('product_id')->references('id')->on('product');
         });
     }

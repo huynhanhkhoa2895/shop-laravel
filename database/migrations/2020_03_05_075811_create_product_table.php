@@ -21,9 +21,10 @@ class CreateProductTable extends Migration
             $table->string('sku');
             $table->decimal('price',12,0);
             $table->string('route');
-            $table->timestamps();
             $table->foreign('category_id')->references('id')->on('category');
             $table->foreign('brand_id')->references('id')->on('brand');
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 

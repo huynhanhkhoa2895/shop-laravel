@@ -21,7 +21,8 @@ class CreateShipTable extends Migration
             $table->string('state');
             $table->tinyInteger('status')->default(1);
             $table->tinyInteger('default')->default(0);
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->foreign('customer_id')->references('id')->on('customer');
         });
     }

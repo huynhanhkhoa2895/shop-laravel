@@ -30,4 +30,14 @@ class Home extends Controller
         }
         return response()->json($product);
     }
+    public function getListProduct(Request $rq){
+        $arrProduct = [];
+        $con = [];
+        $product = $this->_model->getListProduct(array("limit"=>6,"order"=>['product.created_at'=>'desc']));
+        foreach($product as $item){
+            $arrProduct[] = $item->id;
+        }
+        $image = $this->_model->getListImageProduct(array("where_in"=>["product_id"=>$arrProduct],"order"=>['priority'=>'desc']));
+        return response()->json(['product'=>$product,'image'=>$image]);
+    }
 }

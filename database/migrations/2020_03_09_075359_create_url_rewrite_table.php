@@ -20,7 +20,8 @@ class CreateUrlRewriteTable extends Migration
             $table->string('url');
             $table->tinyInteger('status')->default(1);
             $table->enum('type', ['category', 'product','other']);
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 
