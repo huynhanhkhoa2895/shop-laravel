@@ -25,7 +25,7 @@ class M_Model extends Model
     function getListProduct($option = []){
         $table = DB::table("product");
         if(!empty($option['where'])){
-            $table->where($option['where']);
+            $table->where(key($option['where']),$option['where'][key($option['where'])]);
         }
         if(!empty($option['order'])){
             $table->orderBy(key($option['order']),$option['order'][key($option['order'])]);
@@ -42,11 +42,20 @@ class M_Model extends Model
     function getListImageProduct($option = []){
         $table = DB::table("image");
         if(!empty($option['where'])){
-            $table->where($option['where']);
+            $table->where(key($option['where']),$option['where'][key($option['where'])]);
         }
         if(!empty($option['where_in'])){
             $table->whereIn(key($option['where_in']),$option['where_in'][key($option['where_in'])]);
         }
         return $table->get();
+    }
+    function getProduct($id){
+        $table = DB::table("product");
+        return $table
+                ->where("product.id",$id)
+                ->leftJoin('brand', 'product.brand_id', '=', 'brand.id')
+                ->leftJoin('category', 'product.category_id', '=', 'category.id')
+                ->select(DB::raw("product.id, product.name, product.route, brand.name as brand_name,brand.route as brand_route,category.route as category_route,category.name as category_name,price"))
+                ->first();
     }
 }

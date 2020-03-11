@@ -40,4 +40,13 @@ class Home extends Controller
         $image = $this->_model->getListImageProduct(array("where_in"=>["product_id"=>$arrProduct],"order"=>['priority'=>'desc']));
         return response()->json(['product'=>$product,'image'=>$image]);
     }
+    public function getDetailProduct(Request $rq){ 
+        $route = $this->_model->getIdByRoute($rq->route);
+        if(empty($route)){
+            return response()->json(['product'=>[],'image'=>[]]);
+        }
+        $product = $this->_model->getProduct($route->origin);
+        $image = $this->_model->getListImageProduct(array("where"=>["product_id"=>$product->id],"order"=>['priority'=>'desc']));
+        return response()->json(['product'=>$product,'image'=>$image]);
+    }
 }
