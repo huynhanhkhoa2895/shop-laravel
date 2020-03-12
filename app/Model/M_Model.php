@@ -36,7 +36,7 @@ class M_Model extends Model
         return $table
                 ->leftJoin('brand', 'product.brand_id', '=', 'brand.id')
                 ->leftJoin('category', 'product.category_id', '=', 'category.id')
-                ->select(DB::raw("product.id, product.name, product.route, brand.name as brand_name,brand.route as brand_route,category.route as category_route,category.name as category_name,price"))
+                ->select(DB::raw("product.id, product.name, sku, product.route,product.category_id , product.brand_id, brand.name as brand_name,brand.route as brand_route,category.route as category_route,category.name as category_name,price"))
                 ->get();
     }
     function getListImageProduct($option = []){
@@ -55,7 +55,7 @@ class M_Model extends Model
                 ->where("product.id",$id)
                 ->leftJoin('brand', 'product.brand_id', '=', 'brand.id')
                 ->leftJoin('category', 'product.category_id', '=', 'category.id')
-                ->select(DB::raw("product.id, product.name, product.route, brand.name as brand_name,brand.route as brand_route,category.route as category_route,category.name as category_name,price"))
+                ->select(DB::raw("product.id, product.name, sku, product.route, brand.name as brand_name,product.category_id , product.brand_id,brand.route as brand_route,category.route as category_route,category.name as category_name,price"))
                 ->first();
     }
 }

@@ -33,7 +33,8 @@ class Home extends Controller
     public function getListProduct(Request $rq){
         $arrProduct = [];
         $con = [];
-        $product = $this->_model->getListProduct(array("limit"=>6,"order"=>['product.created_at'=>'desc']));
+        $option = $rq->query("option");
+        $product = $this->_model->getListProduct($option);
         foreach($product as $item){
             $arrProduct[] = $item->id;
         }

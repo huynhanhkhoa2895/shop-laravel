@@ -19,6 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['api', 'cors']],function(){
     Route::get('/v1/getHeaderMenu',"Home@getListMenu");
     Route::get('/v1/category/{route}',"Home@getCategory");
-    Route::get('/v1/product/{type?}',"Home@getListProduct");
-    Route::get('/v1/product-detail/{route}',"Home@getDetailProduct");
+    Route::get('/v1/product/list',"Home@getListProduct");
+    Route::get('/v1/product/view/{route}',"Home@getDetailProduct");
 });
