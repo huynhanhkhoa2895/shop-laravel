@@ -20,6 +20,10 @@ class CategoryTableSeeder extends Seeder
                 'name' => "T-Shirt",
                 'route' => "tshirt.html"
             ],
+            [
+                'name' => "Glass",
+                'route' => "glass.html"
+            ],
         );
         DB::table('category')->insert($arr);
     }
