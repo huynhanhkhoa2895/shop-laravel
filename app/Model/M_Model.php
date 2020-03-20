@@ -33,11 +33,27 @@ class M_Model extends Model
         if(!empty($option['limit'])){
             $table->limit($option['limit']);
         }
-        return $table
+        if(!empty($option['join'])){
+            foreach($option['join'] as $join){
+                $table->join($join['table'], $join['on1'], '=', $join['on2']);
+            }
+        }
+        if(!empty($option['leftJoin'])){
+
+            foreach($option['leftJoin'] as $join){
+                $table->leftJoin($join['table'], $join['on1'], '=', $join['on2']);
+            }
+        }
+        $table = $table
                 ->leftJoin('brand', 'product.brand_id', '=', 'brand.id')
                 ->leftJoin('category', 'product.category_id', '=', 'category.id')
-                ->select(DB::raw("product.id, product.name, sku, product.route,product.category_id , product.brand_id, brand.name as brand_name,brand.route as brand_route,category.route as category_route,category.name as category_name,price"))
-                ->get();
+                ->select(DB::raw("product.id, product.name, sku, product.route,product.category_id , product.brand_id, brand.name as brand_name,brand.route as brand_route,category.route as category_route,category.name as category_name,price"));
+        if(!empty($option['pagiation'])){
+            return $table->paginate($option['pagiation']);
+        }else{
+            return $table->get();
+        }
+                
     }
     function getListImageProduct($option = []){
         $table = DB::table("image");
@@ -57,5 +73,8 @@ class M_Model extends Model
                 ->leftJoin('category', 'product.category_id', '=', 'category.id')
                 ->select(DB::raw("product.id, product.name, sku, product.route, brand.name as brand_name,product.category_id , product.brand_id,brand.route as brand_route,category.route as category_route,category.name as category_name,price"))
                 ->first();
+    }
+    function getInfo($table,$id){
+        return DB::table($table)->where("id",$id)->first();
     }
 }

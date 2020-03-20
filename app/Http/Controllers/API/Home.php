@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Factory\Cart;
@@ -21,7 +22,7 @@ class Home extends Controller
     public function getCategory(Request $rq){
         $route = $this->_model->getIdByRoute($rq->route);
         $info = $this->_model->getInfo($route->table,$route->origin);
-        return response()->json(["info"=>$info,"table"=>$table]);
+        return response()->json(["info"=>$info,"table"=>$route->table]);
     }
     public function getListProduct(Request $rq){
         $arrProduct = [];
@@ -44,3 +45,4 @@ class Home extends Controller
         return response()->json(['product'=>$product,'image'=>$image]);
     }
 }
+
