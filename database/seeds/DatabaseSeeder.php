@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
             ProductTableSeeder::class,
             GroupDetailTableSeeder::class,
             ImageTableSeeder::class,
+            OptionTableSeeder::class,
+            OptionValueTableSeeder::class,
+            OptionProductTableSeeder::class,
         ]);
     }
 }

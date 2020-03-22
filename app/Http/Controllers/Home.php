@@ -15,6 +15,9 @@ class Home extends Controller
         return view("admin/pages/home");
     }
     public function test(){
+        $this->_model->getListOptionProduct(70);
+        // dump(array_unique($arr));
+
     }
     
 }

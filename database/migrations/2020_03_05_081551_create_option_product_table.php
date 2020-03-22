@@ -16,8 +16,8 @@ class CreateOptionProductTable extends Migration
         Schema::create('option_product', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('option_id');
-            $table->unsignedBigInteger('product_id');
-            $table->string('value');
+            $table->string('option_value');
+            $table->unsignedBigInteger('product_id');            
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->foreign('option_id')->references('id')->on('option');

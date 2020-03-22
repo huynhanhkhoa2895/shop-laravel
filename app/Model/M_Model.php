@@ -13,6 +13,22 @@ class M_Model extends Model
         $group = DB::table('group')->where("include_menu",1)->union($category)->union($brand)->select(DB::raw("id, name, route, 'group' as table_name"))->get();
         return $group;
     }
+    function getListOptionFilter(){
+        $option['value'] = DB::table('option')
+        ->leftJoin('option_value','option.id','=','option_value.option_id')
+        ->select(DB::raw("option.id as option_id,option.name as name,option_value.value_id,option_value.value"))
+        ->where('option.filter',1)->get();
+        $option['option'] = DB::table('option')->where('option.filter',1)->get();
+        return $option;
+    }
+    function getListOption(){
+        $option['value'] = DB::table('option')
+        ->leftJoin('option_value','option.id','=','option_value.option_id')
+        ->select(DB::raw("option.id as option_id,option.name as name,option_value.value_id,option_value.value"))
+        ->where('option.filter',1)->get();
+        $option['option'] = DB::table('option')->get();
+        return $option;
+    }
     function getListById($table="category",$id){
         if($table == "category" || $table == "brand")
             return DB::table("product")->where($table."_id",$id)->get();
@@ -25,7 +41,14 @@ class M_Model extends Model
     function getListProduct($option = []){
         $table = DB::table("product");
         if(!empty($option['where'])){
-            $table->where(key($option['where']),$option['where'][key($option['where'])]);
+            foreach($option['where'] as $k=>$it){
+                $table->where($k,$it);
+            }
+        }
+        if(!empty($option['whereIn'])){
+            foreach($option['whereIn'] as $k=>$it){
+                $table->whereIn($k,$it);
+            }
         }
         if(!empty($option['order'])){
             $table->orderBy(key($option['order']),$option['order'][key($option['order'])]);
@@ -39,7 +62,6 @@ class M_Model extends Model
             }
         }
         if(!empty($option['leftJoin'])){
-
             foreach($option['leftJoin'] as $join){
                 $table->leftJoin($join['table'], $join['on1'], '=', $join['on2']);
             }
@@ -48,8 +70,8 @@ class M_Model extends Model
                 ->leftJoin('brand', 'product.brand_id', '=', 'brand.id')
                 ->leftJoin('category', 'product.category_id', '=', 'category.id')
                 ->select(DB::raw("product.id, product.name, sku, product.route,product.category_id , product.brand_id, brand.name as brand_name,brand.route as brand_route,category.route as category_route,category.name as category_name,price"));
-        if(!empty($option['pagiation'])){
-            return $table->paginate($option['pagiation']);
+        if(!empty($option['paginate'])){
+            return $table->paginate($option['paginate']);
         }else{
             return $table->get();
         }
@@ -64,6 +86,20 @@ class M_Model extends Model
             $table->whereIn(key($option['where_in']),$option['where_in'][key($option['where_in'])]);
         }
         return $table->get();
+    }
+    function getListOptionProduct($id){
+        $table = DB::table("option_product")
+                    ->where('option_product.product_id',$id)->get();
+        $getListOption = $this->getListOption();
+        foreach($table as $it){
+            foreach($getListOption['value'] as $it2){
+                if($it->option_id == $it2->option_id && $it->option_value == $it2->value_id){
+                    $arr['value'][] = $it2;
+                    $arr['option'][$it2->option_id]=$it2->name;
+                }
+            }
+        }
+        return $arr;
     }
     function getProduct($id){
         $table = DB::table("product");

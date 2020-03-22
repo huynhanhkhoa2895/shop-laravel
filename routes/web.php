@@ -15,4 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/',"Home@index");
+Route::get('/test',"Home@test");
 Route::get('/verify',"Verify@index");

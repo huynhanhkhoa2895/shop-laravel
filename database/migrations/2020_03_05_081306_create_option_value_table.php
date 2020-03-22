@@ -16,6 +16,7 @@ class CreateOptionValueTable extends Migration
         Schema::create('option_value', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('option_id');
+            $table->unsignedBigInteger('value_id');
             $table->string('value');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

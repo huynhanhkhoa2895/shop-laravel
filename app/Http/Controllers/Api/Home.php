@@ -14,10 +14,20 @@ class Home extends Controller
         $this->_model = new M_Model();
     }
     public function test(){
-        $cart = new Cart(1,2);
+        $arr =[
+            ['option_id' => 1,'option_value' => 2,'option_product' => 3],
+            ['option_id' => 1,'option_value' => 2,'option_product' => 3],
+            ['option_id' => 5,'option_value' => 2,'option_product' => 3],
+            ['option_id' => 2,'option_value' => 3,'option_product' => 3],
+        ];
+        dump(array_unique($arr));
+
     }
     public function getListMenu(){
         return response()->json($this->_model->getListHeader());
+    }
+    public function getListOptionFilter(){
+        return response()->json($this->_model->getListOptionFilter());
     }
     public function getCategory(Request $rq){
         $route = $this->_model->getIdByRoute($rq->route);
@@ -42,7 +52,8 @@ class Home extends Controller
         }
         $product = $this->_model->getProduct($route->origin);
         $image = $this->_model->getListImageProduct(array("where"=>["product_id"=>$product->id],"order"=>['priority'=>'desc']));
-        return response()->json(['product'=>$product,'image'=>$image]);
+        $option_product = $this->_model->getListOptionProduct($product->id);
+        return response()->json(['product'=>$product,'image'=>$image,'option_product'=>$option_product]);
     }
 }
 

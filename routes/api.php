@@ -21,4 +21,5 @@ Route::group(['middleware' => ['api', 'cors']],function(){
     Route::get('/v1/category/{route}',"Api\Home@getCategory");
     Route::get('/v1/product/list',"Api\Home@getListProduct");
     Route::get('/v1/product/view/{route}',"Api\Home@getDetailProduct");
+    Route::get('/v1/getListOptionFilter',"Api\Home@getListOptionFilter");
 });
