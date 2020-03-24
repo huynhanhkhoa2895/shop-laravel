@@ -87,6 +87,14 @@ class M_Model extends Model
         }
         return $table->get();
     }
+    function getListProductInGroup($id){
+        $table = DB::table("group_details")->where("group_id")->get();
+        $arr = [];
+        foreach($table as $it){
+            $arr[] = $it->product_id;
+        }
+        return $arr;
+    }
     function getListOptionProduct($id){
         $table = DB::table("option_product")
                     ->where('option_product.product_id',$id)->get();

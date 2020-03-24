@@ -35,9 +35,25 @@ class Home extends Controller
         return response()->json(["info"=>$info,"table"=>$route->table]);
     }
     public function getListProduct(Request $rq){
+        // $route = $this->_model->getIdByRoute($rq->route);
+        // $info = $this->_model->getInfo($route->table,$route->origin);
         $arrProduct = [];
         $con = [];
         $option = $rq->query("option");
+        if(!empty($option['route'])){
+            if($option['route']['table'] == "group"){
+                $list_product = $this->_model->getListProductInGroup($option['route']['id']);
+                echo "<pre>";
+                print_r($option['route']['id']);
+                echo "</pre>";
+                if(empty($option['whereIn'])){
+                    $option['whereIn']=['id'=>$list_product];
+                }else{
+                    $option['whereIn']=array_merge($option['whereIn'],['id'=>$list_product]);
+                }
+            }
+        }
+
         $product = $this->_model->getListProduct($option);
         foreach($product as $item){
             $arrProduct[] = $item->id;
