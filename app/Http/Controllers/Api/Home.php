@@ -43,13 +43,16 @@ class Home extends Controller
         if(!empty($option['route'])){
             if($option['route']['table'] == "group"){
                 $list_product = $this->_model->getListProductInGroup($option['route']['id']);
-                echo "<pre>";
-                print_r($option['route']['id']);
-                echo "</pre>";
                 if(empty($option['whereIn'])){
-                    $option['whereIn']=['id'=>$list_product];
+                    $option['whereIn']=['product.id'=>$list_product];
                 }else{
-                    $option['whereIn']=array_merge($option['whereIn'],['id'=>$list_product]);
+                    $option['whereIn']=array_merge($option['whereIn'],['product.id'=>$list_product]);
+                }
+            }else{
+                if(empty($option['where'])){
+                    $option['where']=["product.".$option['route']['table'].'_id'=>$option['route']['id']];
+                }else{
+                    $option['where']=array_merge($option['where'],["product.".$option['route']['table'].'_id'=>$option['route']['id']]);
                 }
             }
         }

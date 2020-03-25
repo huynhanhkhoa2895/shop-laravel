@@ -88,7 +88,7 @@ class M_Model extends Model
         return $table->get();
     }
     function getListProductInGroup($id){
-        $table = DB::table("group_details")->where("group_id")->get();
+        $table = DB::table("group_detail")->where("group_id",$id)->get();
         $arr = [];
         foreach($table as $it){
             $arr[] = $it->product_id;
