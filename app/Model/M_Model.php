@@ -121,4 +121,7 @@ class M_Model extends Model
     function getInfo($table,$id){
         return DB::table($table)->where("id",$id)->first();
     }
+    function login(){
+        
+    }
 }
