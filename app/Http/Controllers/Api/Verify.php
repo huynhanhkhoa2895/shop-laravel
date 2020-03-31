@@ -18,15 +18,15 @@ class Verify extends Controller
     }
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('email', 'password');        
         if (!($token = JWTAuth::attempt($credentials))) {
             return response()->json([
-                'status' => 'error',
+                'status' => 0,
                 'error' => 'invalid.credentials',
-                'msg' => 'Invalid Credentials.'
+                'msg' => ['Email hoặc mật khẩu không chính xác']
             ]);
         }
-        return response()->json(['token' => $token,'user'=>JWTAuth::User()], Response::HTTP_OK);
+        return response()->json(['status' => 1,'token' => $token,'user'=>JWTAuth::User()], Response::HTTP_OK);
     }
     public function register(Request $request)
     {
