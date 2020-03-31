@@ -28,23 +28,40 @@ class Verify extends Controller
         }
         return response()->json(['status' => 1,'token' => $token,'user'=>JWTAuth::User()], Response::HTTP_OK);
     }
-    public function register(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required|min:3',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-        ]);
- 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
-        ]);
- 
-        $token = $user->createToken('HUYNHANHKHOA')->accessToken;
- 
-        return response()->json(['token' => $token], 200);
+    public function register(Request $request){
+        if($this->_model->isExistEmailCustomer($request->email)){
+            return response()->json([
+                'status' => 0,
+                'error' => 'invalid.credentials',
+                'msg' => ['Email đã tồn tại']
+            ], 200);
+        }else{
+            $user = Customer::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'password' => bcrypt($request->password)
+            ]);
+            if($user){
+                $credentials = $request->only('email', 'password');        
+                if (!($token = JWTAuth::attempt($credentials))) {
+                    return response()->json([
+                        'status' => 0,
+                        'error' => 'invalid.credentials',
+                        'msg' => ['Email hoặc mật khẩu không chính xác']
+                    ]);
+                }
+                return response()->json(['status' => 1,'token' => $token,'user'=>JWTAuth::User()], Response::HTTP_OK);
+            } 
+            return response()->json([
+                'status' => 0,
+                'error' => 'invalid.credentials',
+                'msg' => ['Lỗi không xác định']
+            ], 200);
+        }
+
+        
     }
     public function details()
     {

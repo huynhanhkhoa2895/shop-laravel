@@ -121,7 +121,12 @@ class M_Model extends Model
     function getInfo($table,$id){
         return DB::table($table)->where("id",$id)->first();
     }
-    function login(){
-        
+    function isExistEmailCustomer($email){
+        $table = DB::table("customer")->where("email",$email)->first();
+        if($table){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

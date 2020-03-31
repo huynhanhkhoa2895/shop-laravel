@@ -16,13 +16,15 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::group(['middleware' => ['api']],function(){
-    Route::get('/v1/getHeaderMenu',"Api\Home@getListMenu");
-    Route::get('/v1/category/{route}',"Api\Home@getCategory");
-    Route::get('/v1/product/list',"Api\Home@getListProduct");
-    Route::get('/v1/product/view/{route}',"Api\Home@getDetailProduct");
-    Route::get('/v1/getListOptionFilter',"Api\Home@getListOptionFilter");
-
-    Route::post('/v1/login',"Api\Verify@login");
-    
+Route::group(["prefix"=>"v1",'middleware' => ['api']],function(){
+    Route::get('/getHeaderMenu',"Api\Home@getListMenu");
+    Route::get('/category/{route}',"Api\Home@getCategory");
+    Route::get('/product/list',"Api\Home@getListProduct");
+    Route::get('/product/view/{route}',"Api\Home@getDetailProduct");
+    Route::get('/getListOptionFilter',"Api\Home@getListOptionFilter");
+    Route::post('/login',"Api\Verify@login");
+    Route::post('/register',"Api\Verify@register");
+    Route::group(["prefix"=>"customer",'middleware' => ['jwt.auth']],function(){
+        Route::get('getInfo',"Api\Customer@getInfo");
+    });
 });
