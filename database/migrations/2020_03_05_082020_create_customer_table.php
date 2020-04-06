@@ -20,6 +20,7 @@ class CreateCustomerTable extends Migration
             $table->string('phone')->nullable();
             $table->string('password');
             $table->string('address')->nullable();
+            $table->string('state')->nullable();
             $table->string('img')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

@@ -16,6 +16,7 @@ class CreateShipTable extends Migration
         Schema::create('ship', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('customer_id');
+            $table->string('name');
             $table->string('address');
             $table->string('phone');
             $table->string('state');

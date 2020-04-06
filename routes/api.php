@@ -25,6 +25,9 @@ Route::group(["prefix"=>"v1",'middleware' => ['api']],function(){
     Route::post('/login',"Api\Verify@login");
     Route::post('/register',"Api\Verify@register");
     Route::group(["prefix"=>"customer",'middleware' => ['jwt.auth']],function(){
-        Route::get('getInfo',"Api\Customer@getInfo");
+        Route::get('/getInfo',"Api\Customer@getInfo");
+        Route::get('/getInfoShipping',"Api\Customer@getInfoShipping");
+        Route::post('/addInfoShip',"Api\Customer@addInfoShip");
+        Route::post('/addOrder',"Api\Customer@addOrder");
     });
 });

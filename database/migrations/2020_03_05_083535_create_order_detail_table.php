@@ -17,7 +17,8 @@ class CreateOrderDetailTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('order_id');
-            $table->decimal('price');
+            $table->string('price');
+            $table->text('option');
             $table->integer('qty');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

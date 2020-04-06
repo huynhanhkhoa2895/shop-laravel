@@ -22,7 +22,9 @@ class DatabaseSeeder extends Seeder
             OptionTableSeeder::class,
             OptionValueTableSeeder::class,
             OptionProductTableSeeder::class,
-            CustomerTableSeeder::class
+            CustomerTableSeeder::class,
+            ProvinceTableSeeder::class,
+            ShipTableSeeder::class,
         ]);
     }
 }

@@ -12,10 +12,28 @@ class CustomerTableSeeder extends Seeder
     public function run()
     {
         //
-        return Customer::forceCreate([
-            'name' => "admin",
+        $arr = array([
+            'name' => "customer",
             'email' => "customer@gmail.com",
-            'password' => Hash::make(654321),
+            'password' => Hash::make(123456),
+            'state' => "",
+            'phone' => "",
+            'address' => "",
+        ],[
+            'name' => "customer 2",
+            'email' => "customer2@gmail.com",
+            'password' => Hash::make(123456),
+            'state' => "1",
+            'phone' => "0335076638",
+            'address' => "854 tạ quang bửu",
+        ],[
+            'name' => "customer 3",
+            'email' => "customer3@gmail.com",
+            'password' => Hash::make(123456),
+            'state' => "1",
+            'phone' => "0335076638",
+            'address' => "856 tạ quang bửu",
         ]);
+        DB::table('customer')->insert($arr);
     }
 }

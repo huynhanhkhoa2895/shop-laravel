@@ -129,4 +129,29 @@ class M_Model extends Model
             return false;
         }
     }
+    function getInfoShipping($customer){
+        $tableInfo = DB::table("customer")->where("id",$customer)->first();
+        $tableShipping = DB::table("ship")->where("customer_id",$customer)->orderBy("id","desc")->get();
+        $tableProvince = DB::table("province")->get();
+        return array("customer"=>$tableInfo,"ship"=>$tableShipping,"province"=>$tableProvince);
+    }
+    function addInfoShip($ship){
+        return DB::table("ship")->insert([
+            "name" => $ship->name,
+            "customer_id" => $ship->customer_id,
+            "phone" => $ship->phone,
+            "address" => $ship->address,
+            "state" => $ship->province,
+        ]);
+    }
+    function addOrder($order){
+        return DB::table("order")->insertGetId([
+            "customer_id" => $order['customer_id'],
+            "ship_id"     => $order['ship_id'],
+            "total"     => $order['total'],
+        ]);
+    }
+    function addOrderDetail($order_detail){
+        return DB::table("order_detail")->insert($order_detail);
+    }
 }
