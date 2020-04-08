@@ -154,4 +154,16 @@ class M_Model extends Model
     function addOrderDetail($order_detail){
         return DB::table("order_detail")->insert($order_detail);
     }
+    function deleteAddress($id){
+        return DB::table("ship")->where('id',$id)->delete();
+    }
+    function loadListProvince(){
+        $tableProvince = DB::table("province")->get();
+        return $tableProvince;
+    }
+    function updateInfo($id,$data){
+        return DB::table('customer')
+              ->where('id',$id)
+              ->update($data);
+    }
 }

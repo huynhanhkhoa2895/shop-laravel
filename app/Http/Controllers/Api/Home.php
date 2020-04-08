@@ -74,5 +74,9 @@ class Home extends Controller
         $option_product = $this->_model->getListOptionProduct($product->id);
         return response()->json(['product'=>$product,'image'=>$image,'option_product'=>$option_product]);
     }
+    public function loadListProvince(){
+        $province = $this->_model->loadListProvince();
+        return $province;
+    }
 }
 
