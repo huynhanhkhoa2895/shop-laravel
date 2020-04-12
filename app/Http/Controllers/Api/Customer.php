@@ -17,6 +17,30 @@ class Customer extends Controller
         $info = $this->_model->getInfo("customer",$rq->id);
         return response()->json($info);
     }
+    function getOrder(Request $rq){
+        $order = $this->_model->getListOrder($rq->id);
+        return response()->json($order);
+    }
+    function getOrderDetail(Request $rq){
+        $arrProduct = [];
+        $order_detail = $this->_model->getOrderDetail($rq->order_id,$rq->customer_id);
+        if($order_detail->isEmpty()){
+            return response()->json(["err"=>1,"msg"=>"Có lỗi xảy ra! đơn hàng này không tồn tại"]);
+        }
+        foreach($order_detail as $item){
+            $arrProduct[] = $item->id;
+        }
+        $image = $this->_model->getListImageProduct(array("where_in"=>["product_id"=>$arrProduct],"order"=>['priority'=>'desc']));
+        foreach($order_detail as $item){
+            $item->img = [];
+            foreach($image as $img){
+                if($item->id == $img->product_id){
+                    array_push($item->img,$img);
+                }
+            }
+        }
+        return response()->json(["err"=>0,"product"=>$order_detail]);
+    }
     function getInfoShipping(Request $rq){
         return response()->json($this->_model->getInfoShipping($rq->id));
     }

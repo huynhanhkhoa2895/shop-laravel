@@ -18,6 +18,7 @@ class CreateOrderTable extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('ship_id');
             $table->string('total');
+            $table->tinyInteger('payment_at_home')->default(1);
             $table->enum('status_order',["in_process","pending","cancle","done"])->default("in_process");
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

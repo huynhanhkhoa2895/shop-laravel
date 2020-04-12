@@ -118,6 +118,19 @@ class M_Model extends Model
                 ->select(DB::raw("product.id, product.name, sku, product.route, brand.name as brand_name,product.category_id , product.brand_id,brand.route as brand_route,category.route as category_route,category.name as category_name,price"))
                 ->first();
     }
+    function getListOrder($id){
+        return DB::table("order")->where("customer_id",$id)->orderBy("created_at","desc")->get();
+    }
+    function getOrderDetail($order_id,$customer_id){
+        return DB::table("order_detail")
+        ->join('order', 'order.id', '=', 'order_detail.order_id')
+        ->join('product', 'product.id', '=', 'order_detail.product_id')
+        ->join('brand', 'product.brand_id', '=', 'brand.id')
+        ->join('category', 'product.category_id', '=', 'category.id')
+        ->where(["order_id"=>$order_id,"customer_id"=>$customer_id])
+        ->select(DB::raw("product.id, product.name,product.price, sku, product.route, brand.name as brand_name,product.category_id , product.brand_id,brand.route as brand_route,category.route as category_route,category.name as category_name,order_detail.price as order_price,order_detail.option as order_option,order_detail.qty as order_qty"))
+        ->get();
+    }
     function getInfo($table,$id){
         return DB::table($table)->where("id",$id)->first();
     }
